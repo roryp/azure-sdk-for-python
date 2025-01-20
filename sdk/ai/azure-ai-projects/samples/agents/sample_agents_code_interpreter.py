@@ -29,6 +29,8 @@ from azure.ai.projects.models import FilePurpose, MessageRole
 from azure.identity import DefaultAzureCredential
 from pathlib import Path
 
+os.environ["PROJECT_CONNECTION_STRING"] = "eastus.api.azureml.ms;8801b35b-401e-4a5b-bf1a-8212daf6ea06;agentrpza;project-demo-mzto"
+
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(), conn_str=os.environ["PROJECT_CONNECTION_STRING"]
 )
@@ -46,7 +48,7 @@ with project_client:
 
     # Create agent with code interpreter tool and tools_resources
     agent = project_client.agents.create_agent(
-        model=os.environ["MODEL_DEPLOYMENT_NAME"],
+        model="gpt-4o",
         name="my-assistant",
         instructions="You are helpful assistant",
         tools=code_interpreter.definitions,
