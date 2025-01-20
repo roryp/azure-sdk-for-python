@@ -15,11 +15,8 @@ USAGE:
 
     pip install azure-ai-projects azure-identity
 
-    Set these environment variables with your own values:
-    1) PROJECT_CONNECTION_STRING - The project connection string, as found in the overview page of your
-       Azure AI Foundry project.
-    2) MODEL_DEPLOYMENT_NAME - The deployment name of the AI model, as found under the "Name" column in 
-       the "Models + endpoints" tab in your Azure AI Foundry project.
+    Set this environment variables with your own values:
+    PROJECT_CONNECTION_STRING - the Azure AI Project connection string, as found in your AI Foundry project.
 """
 
 import os, time
@@ -27,20 +24,27 @@ from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 from azure.ai.projects.models import MessageTextContent
 
+import os, time
+from azure.ai.projects import AIProjectClient
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects.models import MessageTextContent
+
+# Set the environment variable
+os.environ["PROJECT_CONNECTION_STRING"] = "eastus.api.azureml.ms;8801b35b-401e-4a5b-bf1a-8212daf6ea06;agentrpza;project-demo-mzto"
+
 # [START create_project_client]
 project_client = AIProjectClient.from_connection_string(
     credential=DefaultAzureCredential(),
     conn_str=os.environ["PROJECT_CONNECTION_STRING"],
 )
 # [END create_project_client]
-
 with project_client:
 
     # [START create_agent]
     agent = project_client.agents.create_agent(
-        model=os.environ["MODEL_DEPLOYMENT_NAME"],
+        model="gpt-4o",
         name="my-assistant",
-        instructions="You are helpful assistant",
+        instructions="You are helpful Accessibility assistant",
     )
     # [END create_agent]
     print(f"Created agent, agent ID: {agent.id}")
@@ -51,7 +55,7 @@ with project_client:
     print(f"Created thread, thread ID: {thread.id}")
 
     # [START create_message]
-    message = project_client.agents.create_message(thread_id=thread.id, role="user", content="Hello, tell me a joke")
+    message = project_client.agents.create_message(thread_id=thread.id, role="user", content="Hello, tell me about accessibilty in M365")
     # [END create_message]
     print(f"Created message, message ID: {message.id}")
 
