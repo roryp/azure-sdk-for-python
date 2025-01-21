@@ -9,6 +9,8 @@ DESCRIPTION:
     the Azure Agents service using a synchronous client.
 
 USAGE:
+    az login --tenant 1886fcb7-2f2a-4af1-8e70-d84dc2ede0ed
+
     python sample_agents_basics.py
 
     Before running the sample:
